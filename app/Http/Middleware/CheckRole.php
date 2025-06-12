@@ -24,7 +24,7 @@ class CheckRole
         if(!$user){
             return response()->json(['message' => 'unAuth'],401);
         }
-        if(!($user->role === 'police')){
+        if(!($user->role === 'police'|| $user->role === 'admin')){
             return response()->json(['message' => 'unAuth'],401);
         }
         return $next($request);
