@@ -3,9 +3,6 @@
 use App\Http\Controllers\reportPostController;
 use App\Http\Controllers\UserController;
     use Illuminate\Support\Facades\Route;
-
-    Route::post('/police/create',[UserController::class,'create']);
-    Route::post('/police/login',[UserController::class,'login']);
     Route::get('/police/users',[UserController::class,'getUsers'])->middleware('isPolice');
     Route::get('/police/polices',[UserController::class,'getPolice'])->middleware('isPolice');
     Route::get('/police/user/block/{user}',[UserController::class,'blockUser'])->middleware('isPolice');
