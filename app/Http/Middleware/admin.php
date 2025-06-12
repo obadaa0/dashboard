@@ -20,7 +20,7 @@ class admin
         if(!$user){
             return response()->json(['message' => 'login Please'],401);
         }
-        if($user->role === "user"){
+        if($user->role === "admin"){
             return $next($request);
         }
         else{
