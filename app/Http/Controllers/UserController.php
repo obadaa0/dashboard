@@ -57,7 +57,7 @@ class UserController extends Controller
             return response()->json([
                 'message' => 'Validation failed',
                 'errors' => $e->errors()
-            ], 422);
+            ], 400);
         }
         $user=User::
         where('email',$request['email'])
