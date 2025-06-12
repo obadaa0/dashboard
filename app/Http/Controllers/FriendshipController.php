@@ -5,7 +5,6 @@ use App\Helpers\AuthHelper;
 use App\Models\Friend;
 use Illuminate\Http\Request;
 use App\Models\User;
-use Laravel\Sanctum\PersonalAccessToken;
 use App\Services\NotificationService;
 use Exception;
 

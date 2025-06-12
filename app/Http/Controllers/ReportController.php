@@ -5,15 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\AuthHelper;
 use App\Helpers\MediaHelper;
 use App\Models\Report;
-use App\Models\User;
-use Exception;
-use Illuminate\Http\Client\ConnectionException;
-use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Request;
-use Laravel\Sanctum\PersonalAccessToken;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Http;
 
 class ReportController extends Controller
 {
@@ -22,13 +14,6 @@ class ReportController extends Controller
     $report = Report::with('User')->paginate(10);
     return $report;
     }
-    // public function show(Request $request)
-    // {
-    //     $numberOfReport = $request->input('per_page',10);
-    //     $user = User::whereHas('reports')->with('reports')->paginate($numberOfReport);
-    //     return $user;
-    // }
-
     public function create(Request $request)
     {
         try{

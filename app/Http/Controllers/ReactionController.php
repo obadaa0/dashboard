@@ -8,7 +8,6 @@ use App\Models\PostReaction;
 use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
-use Laravel\Sanctum\PersonalAccessToken;
 use App\Helpers\AuthHelper;
 
 class ReactionController extends Controller

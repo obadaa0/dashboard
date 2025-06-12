@@ -4,21 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Friend;
 use App\Models\Post;
-use App\Models\PostReaction;
-use App\Models\User;
-use Doctrine\Common\Lexer\Token;
 use Illuminate\Http\Request;
-use PhpParser\Node\Expr\Cast\String_;
-use Illuminate\Support\Str;
-use Laravel\Sanctum\PersonalAccessToken;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Redis;
 use App\Helpers\AuthHelper;
 use App\Helpers\MediaHelper;
 use Carbon\Carbon;
 use Exception;
-use Illuminate\Http\Client\ConnectionException;
-use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
 
 class PostController extends Controller

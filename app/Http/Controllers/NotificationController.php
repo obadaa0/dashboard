@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 use App\Helpers\AuthHelper;
 use App\Models\Notification;
-use App\Models\User;
 use Illuminate\Http\Request;
-use Laravel\Sanctum\PersonalAccessToken;
 class NotificationController extends Controller
 {
     public function index(Request $request)

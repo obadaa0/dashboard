@@ -5,12 +5,9 @@ namespace App\Http\Controllers;
 use App\Helpers\AuthHelper;
 use App\Models\Comment;
 use App\Models\Post;
-use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redis;
 use App\Services\NotificationService;
 use Illuminate\Validation\ValidationException;
-use Laravel\Sanctum\PersonalAccessToken;
 
 class CommentController extends Controller
 {
