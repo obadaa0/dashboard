@@ -42,7 +42,7 @@ class reportPostController extends Controller
         }
         $report_post->AddWarn();
         $reported_person = $report_post->reportedPerson;
-        $reporter = $report_post->reporter;
+        $reporter = User::find($report_post->reporter);
         $post = $report_post->post;
         event(new ReportPostWarn($report_post));
            Mail::to($reported_person->email)->queue(new WarnUser($reporter,$reported_person,$post));

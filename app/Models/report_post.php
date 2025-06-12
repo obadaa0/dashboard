@@ -44,6 +44,7 @@ class report_post extends Model
     }
     public function AddWarn()
     {
-        return $this->update(['warn' =>1]);
+        $this->warn = 1;
+        return $this->save();
     }
 }

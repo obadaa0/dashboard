@@ -7,136 +7,152 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f9f9f9;
+            background-color: #f4f4f4;
             margin: 0;
-            padding: 0;
+            padding: 20px;
+            color: #333;
         }
         .container {
-            max-width: 600px;
-            margin: 20px auto;
+            max-width: 700px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
             padding: 30px;
-            background: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
         .header {
             text-align: center;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #eeeeee;
+            border-bottom: 1px solid #eee;
             margin-bottom: 25px;
         }
         .header h1 {
-            color: #d9534f;
-            margin: 0;
-            font-size: 24px;
+            font-size: 26px;
+            color: #c9302c;
+        }
+        .message {
+            font-size: 16px;
+            line-height: 1.7;
         }
         .content-box {
-            background: #f8f9fa;
+            background-color: #fcf8e3;
+            border: 1px solid #faebcc;
             padding: 20px;
             border-radius: 8px;
-            margin: 20px 0;
+            margin: 25px 0;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .avatar {
+            width: 45px;
+            height: 45px;
+            background-color: #ddd;
+            border-radius: 50%;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            color: #555;
         }
         .post-content {
+            background: #f5f5f5;
+            padding: 20px;
+            border-left: 5px solid #c9302c;
+            border-radius: 6px;
             margin-bottom: 20px;
-            padding: 15px;
-            background: white;
-            border-left: 4px solid #d9534f;
-            border-radius: 4px;
         }
         .media-container {
             margin-top: 15px;
             text-align: center;
         }
-        .media-container img, .media-container video {
+        .media-container img,
+        .media-container video {
             max-width: 100%;
             border-radius: 8px;
-            border: 1px solid #ddd;
-        }
-        .footer {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #eeeeee;
-            text-align: center;
-            font-size: 14px;
-            color: #777;
+            border: 1px solid #ccc;
         }
         .btn {
             display: inline-block;
-            padding: 10px 20px;
-            background-color: #d9534f;
-            color: white;
+            padding: 12px 24px;
+            background-color: #c9302c;
+            color: #fff;
+            border-radius: 6px;
             text-decoration: none;
-            border-radius: 5px;
+            font-weight: bold;
             margin-top: 15px;
         }
-        .user-info {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        .user-info .avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-right: 10px;
-            background-color: #ddd;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #777;
-            font-weight: bold;
+        .footer {
+            margin-top: 40px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+            text-align: center;
+            color: #999;
+            font-size: 13px;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>⚠️ Content Warning Notification</h1>
+            <h1>⚠️ Content Warning</h1>
         </div>
 
-        <p>Dear {{ $reported_person->firstname }} {{ $reported_person->lastname }},</p>
+        <p class="message">
+            Dear <strong>{{ $reported_person->firstname }} {{ $reported_person->lastname }}</strong>,
+        </p>
 
-        <p>We're contacting you because your recent post has been reported by another user for potentially violating our community guidelines.</p>
+        <p class="message">
+            We are reaching out because a recent post of yours has been reported by another user as possibly violating our community guidelines.
+        </p>
 
         <div class="content-box">
-            <h3>Report Details:</h3>
-
+            <h3>📋 Report Details</h3>
             <div class="user-info">
                 <div class="avatar">{{ substr($reporter->firstname, 0, 1) }}{{ substr($reporter->lastname, 0, 1) }}</div>
                 <div>
-                    Reported by: <strong>{{ $reporter->firstname }} {{ $reporter->lastname }}</strong>
+                    <strong>Reported by:</strong> {{ $reporter->firstname }} {{ $reporter->lastname }}
                 </div>
             </div>
         </div>
 
-        <h3>Your Reported Post:</h3>
+        <h3>📝 Your Reported Post</h3>
         <div class="post-content">
             <p>{{ $post->content }}</p>
+
             @if($post->media)
-            <div class="media-container">
-                @if(pathinfo($post->media, PATHINFO_EXTENSION) === 'mp4')
-                    <video controls>
-                        <source src="{{ asset('storage/' . $post->media) }}" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                @else
-                    <img src="{{ asset('storage/' . $post->media) }}" alt="Post media">
-                @endif
-            </div>
+                <div class="media-container">
+                    @php
+                        $extension = pathinfo($post->media, PATHINFO_EXTENSION);
+                    @endphp
+
+                    @if(in_array(strtolower($extension), ['mp4', 'webm', 'ogg']))
+                        <video controls>
+                            <source src="{{ asset('storage/' . $post->media) }}" type="video/{{ $extension }}">
+                            Your browser does not support the video tag.
+                        </video>
+                    @elseif(in_array(strtolower($extension), ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg']))
+                        <img src="{{ asset('storage/' . $post->media) }}" alt="Reported Media">
+                    @else
+                        <p><em>Unsupported media format.</em></p>
+                    @endif
+                </div>
             @endif
         </div>
 
-        <p>Please review our community guidelines to ensure your content aligns with our standards. This is a warning notification - no immediate action has been taken on your account.</p>
+        <p class="message">
+            Please take a moment to review our community guidelines to ensure your future content aligns with our platform's values. This is a courtesy warning—no immediate action has been taken on your account.
+        </p>
 
         <div style="text-align: center;">
-            <a href="{{ url('/community-guidelines') }}" class="btn">Review Guidelines</a>
+            <a href="{{ url('/community-guidelines') }}" class="btn">Review Community Guidelines</a>
         </div>
 
         <div class="footer">
-            <p>If you believe this report was made in error, you may contact our support team.</p>
-            <p>© {{ date('Y') }} Rassid. All rights reserved.</p>
+            <p>If you believe this report was submitted in error, please contact our support team for assistance.</p>
+            <p>&copy; {{ date('Y') }} Rassid. All rights reserved.</p>
         </div>
     </div>
 </body>
