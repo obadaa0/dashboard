@@ -20,6 +20,8 @@ class EventServiceProvider extends ServiceProvider
         ],
          \App\Events\PasswordChanged::class => [
         \App\Listeners\SendPasswordChangedEmail::class,
+    ],  \App\Events\ReportPostWarn::class => [
+        \App\Listeners\BlockUserReport::class,
     ],
     ];
 

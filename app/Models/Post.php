@@ -33,4 +33,7 @@ protected static function booted()
     {
         return $this->hasMany(Comment::class);
     }
+    public function reports(){
+        return $this->hasMany(report_post::class);
+    }
 }
