@@ -22,7 +22,7 @@ class reportPostController extends Controller
             $query->select('id', 'firstname', 'lastname');
         },
         'reportedPerson' => function($query){
-            $query->select('id','firstname','lastname');
+            $query->select('id','firstname','lastname','prfile_image');
         }
     ])->paginate(10);
         if($reports->isEmpty()){
