@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Route;
      Route::get('/police/report/show',[ReportController::class,'show'])->middleware('isPolice');//
     Route::get('/policereport/progress/{report}',[ReportController::class,'setProgress'])->middleware('isPolice');
     Route::get('/police/report/resolved/{report}',[ReportController::class,'setResolved'])->middleware('isPolice');
+    Route::get('/police/report/rejected/{report}',[ReportController::class,'setRejected'])->middleware('isPolice');
     //news
     Route::get('/news/show',[PostController::class,'summarizeNews']);
     //search

@@ -71,4 +71,9 @@ class ReportController extends Controller
         $report->resolved();
         return $report;
     }
+        public function setRejected(Report $report)
+    {
+        $report->rejected();
+        return $report;
+    }
 }

@@ -29,5 +29,8 @@ class Report extends Model
     {
         return $this->update(['status'=>'resolved']);
     }
-
+        public function rejected(): bool
+    {
+        return $this->update(['status'=>'rejected']);
+    }
 }
