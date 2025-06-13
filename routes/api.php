@@ -17,10 +17,9 @@ use Illuminate\Support\Facades\Route;
     Route::get('/admin/report/post/reviewed/{report_post}',[reportPostController::class,'makeReviewed']);
     Route::get('/admin/report/post/rejected/{report_post}',[reportPostController::class,'makeRejected']);
     Route::get('/admin/report/post/warn/{report_post}',[reportPostController::class,'warnUser']);
-     Route::get('/report/show',[ReportController::class,'show']);//->middleware('isPolice')
-    Route::post('/report/create',[ReportController::class,'create']);
-    Route::get('report/progress/{report}',[ReportController::class,'setProgress']);
-    Route::get('report/resolved/{report}',[ReportController::class,'setResolved']);
+     Route::get('/police/report/show',[ReportController::class,'show'])->middleware('isPolice');//
+    Route::get('/policereport/progress/{report}',[ReportController::class,'setProgress'])->middleware('isPolice');
+    Route::get('/police/report/resolved/{report}',[ReportController::class,'setResolved'])->middleware('isPolice');
     //news
     Route::get('/news/show',[PostController::class,'summarizeNews']);
     //search
