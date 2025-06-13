@@ -24,4 +24,4 @@ use Illuminate\Support\Facades\Route;
     //news
     Route::get('/news/show',[PostController::class,'summarizeNews']);
     //search
-    Route::get('/search',[SearchController::class,'search']);
+    Route::post('/search',[SearchController::class,'search']);
