@@ -33,10 +33,6 @@ class PostController extends Controller
     foreach($postArray as $postt){
         $newsText .= $postt;
     }
-            $news = News::create([
-            'news' => $newsText,
-            'user_id' => $user->id
-        ]);
         // return $news;
 $response = Http::post('https://19f5-212-102-51-98.ngrok-free.app/summarize', [
     'texts' => $postArray
