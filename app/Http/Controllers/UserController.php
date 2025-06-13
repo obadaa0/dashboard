@@ -48,7 +48,7 @@ class UserController extends Controller
                 'firstname' => 'string',
                 'lastname' => 'string',
                 'email' => 'email|required',
-                'profile_image' => 'required|file|mimes:jpeg,png,jpg',
+                'profile_image' => 'file|mimes:jpeg,png,jpg',
                 'gender' => 'required|in:male,female',
                 'password' => 'required|min:8',
                 'phone' => 'required|digits:10',
@@ -67,9 +67,9 @@ class UserController extends Controller
             return response()->json(['message' => 'User has been exist'],400);
         }
             if ($request->hasFile('profile_image')) {
-        $path = MediaHelper::StoreMedia('profileImage', $request, 'image');
-    }
+        $path = MediaHelper::StoreMedia('profileImage', $request, 'profile_image');
         $validate['profile_image'] = $path;
+    }
         $validate['role'] = 'police';
         $user=User::create($validate);
         return response()->json(['data' => $user],200);
