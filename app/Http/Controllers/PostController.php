@@ -5,13 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Helpers\AuthHelper;
-use App\Models\News;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
 
 class PostController extends Controller
 {
-    public function summarizeNews(Request $request)
+ public function summarizeNews(Request $request)
     {
         $user = AuthHelper::getUserFromToken($request);
         if(!$user){
@@ -27,23 +26,24 @@ class PostController extends Controller
         $query->where('role', 'police');
     })
     ->pluck('content');
-
     $postArray = $posts->toArray();
-    $newsText = '';
-    foreach($postArray as $postt){
-        $newsText .= $postt;
-    }
-        // return $news;
 $response = Http::post('https://19f5-212-102-51-98.ngrok-free.app/summarize', [
     'texts' => $postArray
 ]);
     if($response->successful())
     {
-        // $news = News::create([
-        //     'news' => array_values($posts->toArray()),
-        //     'user_id' => $user->id
-        // ]);
+        $news = Post::create([
+            'user_id' => $user->id,
+            'content' => json_encode($response['summaries']),
+            'isNews' => true
+        ]);
         return response()->json(['data' => $response['summaries']]);
+    }else{
+             return  $news = Post::create([
+            'user_id' => $user->id,
+            'content' => json_encode($postArray),
+            'isNews' => 1
+        ]);
     }
     return $response->json();
     }

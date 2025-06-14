@@ -53,6 +53,7 @@ class UserController extends Controller
                 'password' => 'required|min:8',
                 'phone' => 'required|digits:10',
                 'badge_number' => 'required',
+                'national_number' => 'required'
             ]);
         }
         catch (\Illuminate\Validation\ValidationException $e) {

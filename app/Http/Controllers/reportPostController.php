@@ -31,6 +31,9 @@ class reportPostController extends Controller
         return $reports;
     }
     public function makeReviewed(report_post $report_post){
+        if($report_post->status === 'rejected'){
+            return;
+        }
         return $report_post->makeReviewed();
     }
     public function makeRejected(report_post $report_post){

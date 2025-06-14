@@ -18,10 +18,10 @@ use Illuminate\Support\Facades\Route;
     Route::get('/admin/report/post/rejected/{report_post}',[reportPostController::class,'makeRejected']);
     Route::get('/admin/report/post/warn/{report_post}',[reportPostController::class,'warnUser']);
      Route::get('/police/report/show',[ReportController::class,'show'])->middleware('isPolice');
-    Route::get('/policereport/progress/{report}',[ReportController::class,'setProgress'])->middleware('isPolice');
+    Route::get('/police/report/progress/{report}',[ReportController::class,'setProgress'])->middleware('isPolice');
     Route::get('/police/report/resolved/{report}',[ReportController::class,'setResolved'])->middleware('isPolice');
     Route::get('/police/report/rejected/{report}',[ReportController::class,'setRejected'])->middleware('isPolice');
     //news
-    Route::get('/news/show',[PostController::class,'summarizeNews'])->middleware('isPolice');
+    Route::get('/police/news/show',[PostController::class,'summarizeNews'])->middleware('isPolice');
     //search
     Route::post('/search',[SearchController::class,'search']);
