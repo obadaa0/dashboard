@@ -120,6 +120,7 @@ class UserController extends Controller
                 'gender' => 'nullable|in:male,female',
                 'password' => 'nullable|min:8',
                 'phone' => 'nullable|digits:10',
+                'profile_image' => 'file'
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json([
@@ -130,7 +131,10 @@ class UserController extends Controller
         if (!$user) {
             return response()->json(['message' => 'Police not found'], 404);
         }
-        $user->update($validate);
+        if ($request->hasFile('profile_image')) {
+            $path = MediaHelper::StoreMedia('profileImage', $request, 'profile_image');
+            $validate['profile_image'] = $path;
+        }
         return response()->json([
             'message' => 'Police officer updated successfully',
             'data' => $user
