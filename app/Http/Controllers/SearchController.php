@@ -14,7 +14,7 @@ class SearchController extends Controller
         $search = $request->input('query');
         if (empty($search)) {
             return response()->json([
-                'message' => 'Search word is required',
+                'message' => 'يجب ادخال كلمة واحدة على الاقل',
                 'users' => [],
             ], 400);
         }
@@ -38,7 +38,7 @@ class SearchController extends Controller
         $search = $request->input('query');
         if (empty($search)) {
             return response()->json([
-                'message' => 'Search word is required',
+                'message' => 'يجب ادخال كلمة واحدة على الاقل',
                 'users' => [],
             ], 400);
         }
