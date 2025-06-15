@@ -26,4 +26,4 @@ Route::get('/police/report/rejected/{report}', [ReportController::class, 'setRej
 //news
 Route::get('/police/news/show', [PostController::class, 'summarizeNews'])->middleware('isPolice');
 //search
-Route::post('/search', [SearchController::class, 'search']);
+Route::post('/admin/search', [SearchController::class, 'search']);
