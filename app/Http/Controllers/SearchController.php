@@ -12,46 +12,32 @@ class SearchController extends Controller
         $search = $request->input('query');
         if (empty($search)) {
             return response()->json([
-                'message' => 'يجب ادخال كلمة واحدة على الاقل',
-                'users' => [],
+                'message' => 'يجب إدخال كلمة واحدة على الأقل',
             ], 400);
         }
-        $users = User::where('firstname', 'LIKE', '%' . $search . '%')
-            ->where('role', 'user')
-            ->orWhere('lastname', 'LIKE', '%' . $search . '%')
+        $users = User::where('role', 'police')
+            ->where(function ($query) use ($search) {
+                $query->where('firstname', 'LIKE', '%' . $search . '%')
+                    ->orWhere('lastname', 'LIKE', '%' . $search . '%');
+            })
             ->paginate(10);
-        if ($users->isEmpty()) {
-            return response()->json([
-                'message' => 'لا يوجد نتائج',
-            ]);
-        }
-        return response()->json([
-            $users,
-        ]);
+        return response()->json($users);
     }
     public function searchPolice(Request $request)
     {
         $search = $request->input('query');
         if (empty($search)) {
             return response()->json([
-                'message' => 'يجب ادخال كلمة واحدة على الاقل',
-                'users' => [],
+                'message' => 'يجب إدخال كلمة واحدة على الأقل',
+                'data' => [],
             ], 400);
         }
-        $users = User::where(function ($query) use ($search) {
-            $query
-                ->where('role', 'police')
-                ->where('firstname', 'LIKE', '%' . $search . '%')
-                ->orWhere('lastname', 'LIKE', '%' . $search . '%');
-        })
+        $users = User::where('role', 'police')
+            ->where(function ($query) use ($search) {
+                $query->where('firstname', 'LIKE', '%' . $search . '%')
+                    ->orWhere('lastname', 'LIKE', '%' . $search . '%');
+            })
             ->paginate(10);
-        if ($users->isEmpty()) {
-            return response()->json([
-                'message' => 'لا يوجد نتائج',
-            ]);
-        }
-        return response()->json([
-            $users,
-        ]);
+        return response()->json($users);
     }
 }
