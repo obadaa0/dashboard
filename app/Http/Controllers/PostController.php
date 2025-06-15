@@ -37,14 +37,8 @@ $response = Http::post('https://19f5-212-102-51-98.ngrok-free.app/summarize', [
             'content' => json_encode($response['summaries']),
             'isNews' => true
         ]);
-        return response()->json(['data' => $response['summaries']]);
-    }else{
-             return  $news = Post::create([
-            'user_id' => $user->id,
-            'content' => json_encode($postArray),
-            'isNews' => 1
-        ]);
+        return response()->json(['data' => $news]);
     }
-    return $response->json();
+    return response()->json(['message' => 'فشل في تلخيص الاخبار']);
     }
 }
