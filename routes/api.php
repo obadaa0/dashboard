@@ -7,7 +7,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/admin/user/login', [UserController::class, 'login'])->middleware('customThrottle:1,0.083');
+Route::post('/admin/user/login', [UserController::class, 'login']);
 Route::get('/police/users', [UserController::class, 'getUsers'])->middleware('isPolice');
 Route::get('/police/polices', [UserController::class, 'getPolice'])->middleware('isPolice');
 Route::get('/police/user/block/{user}', [UserController::class, 'blockUser'])->middleware('isPolice');
