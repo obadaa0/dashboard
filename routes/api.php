@@ -28,3 +28,4 @@ Route::get('/police/news/show', [PostController::class, 'summarizeNews'])->middl
 //search
 Route::post('/admin/search/police', [SearchController::class, 'searchPolice']);
 Route::post('/admin/search/user', [SearchController::class, 'searchUser']);
+Route::get('admin/predict-crime/{report}');
