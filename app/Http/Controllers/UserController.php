@@ -120,7 +120,7 @@ class UserController extends Controller
                 'gender' => 'nullable|in:male,female',
                 'password' => 'nullable|min:8',
                 'phone' => 'nullable|digits:10',
-                'profile_image' => 'file'
+                'profile_image' => 'file|mimes:jpeg,png,jpg'
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json([
