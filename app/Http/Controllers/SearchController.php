@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\AuthHelper;
-use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -52,7 +50,7 @@ class SearchController extends Controller
         }
         return response()->json([
             'message' => 'Search results',
-            'users' => $users,
+            $users,
         ]);
     }
 }
