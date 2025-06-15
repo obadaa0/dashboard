@@ -27,7 +27,7 @@ class SearchController extends Controller
         }
         return response()->json([
             'message' => 'Search results',
-            'users' => $users,
+            $users,
         ]);
     }
     public function searchPolice(Request $request)
