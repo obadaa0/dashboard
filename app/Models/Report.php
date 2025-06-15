@@ -14,23 +14,25 @@ class Report extends Model
         'status',
         'media',
         'crime_type',
-        'location'
+        'location',
+        'Lat',
+        'Lon'
     ];
 
     public function User()
     {
-        return $this->belongsTo(User::class,'reporter_id');
+        return $this->belongsTo(User::class, 'reporter_id');
     }
     public function progress()
     {
-        return $this->update(['status'=>'progress']);
+        return $this->update(['status' => 'progress']);
     }
     public function resolved()
     {
-        return $this->update(['status'=>'resolved']);
+        return $this->update(['status' => 'resolved']);
     }
-        public function rejected(): bool
+    public function rejected(): bool
     {
-        return $this->update(['status'=>'rejected']);
+        return $this->update(['status' => 'rejected']);
     }
 }
