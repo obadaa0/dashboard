@@ -9,28 +9,52 @@ use Illuminate\Http\Request;
 
 class SearchController extends Controller
 {
-public function search(Request $request)
-{
-    $search = $request->input('query');
-    if (empty($search)) {
+    public function searchUser(Request $request)
+    {
+        $search = $request->input('query');
+        if (empty($search)) {
+            return response()->json([
+                'message' => 'Search word is required',
+                'users' => [],
+            ], 400);
+        }
+        $users = User::where('firstname', 'LIKE', '%' . $search . '%')
+            ->where('role', 'user')
+            ->orWhere('lastname', 'LIKE', '%' . $search . '%')
+            ->limit(10)
+            ->get();
+        if ($users->isEmpty()) {
+            return response()->json([
+                'message' => 'لا يوجد نتائج',
+            ]);
+        }
         return response()->json([
-            'message' => 'Search word is required',
-            'users' => [],
-        ], 400);
+            'message' => 'Search results',
+            'users' => $users,
+        ]);
     }
-    $users = User::where('firstname', 'LIKE', '%'.$search.'%')
-                ->where('role',['user','police'])
-                ->orWhere('lastname', 'LIKE', '%'.$search.'%')
-                ->limit(10)
-                ->get();
-                if($users->isEmpty()){
-                    return response()->json([
-                        'message' => 'لا يوجد نتائج',
-                    ]);
-                }
-    return response()->json([
-        'message' => 'Search results',
-        'users' => $users,
-    ]);
-}
+    public function searchPolice(Request $request)
+    {
+        $search = $request->input('query');
+        if (empty($search)) {
+            return response()->json([
+                'message' => 'Search word is required',
+                'users' => [],
+            ], 400);
+        }
+        $users = User::where('firstname', 'LIKE', '%' . $search . '%')
+            ->where('role', 'police')
+            ->orWhere('lastname', 'LIKE', '%' . $search . '%')
+            ->limit(10)
+            ->get();
+        if ($users->isEmpty()) {
+            return response()->json([
+                'message' => 'لا يوجد نتائج',
+            ]);
+        }
+        return response()->json([
+            'message' => 'Search results',
+            'users' => $users,
+        ]);
+    }
 }
