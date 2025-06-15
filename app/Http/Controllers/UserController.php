@@ -135,6 +135,7 @@ class UserController extends Controller
             $path = MediaHelper::StoreMedia('profileImage', $request, 'profile_image');
             $validate['profile_image'] = $path;
         }
+        $user->update($validate);
         return response()->json([
             'message' => 'Police officer updated successfully',
             'data' => $user
