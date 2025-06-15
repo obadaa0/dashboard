@@ -26,7 +26,6 @@ class SearchController extends Controller
             ]);
         }
         return response()->json([
-            'message' => 'Search results',
             $users,
         ]);
     }
@@ -41,7 +40,7 @@ class SearchController extends Controller
         }
         $users = User::where('firstname', 'LIKE', '%' . $search . '%')
             ->where('role', 'police')
-            ->orWhere('lastname', 'LIKE', '%' . $search . '%')
+            ->orWhere('lastname', 'LIKE', '%' . $search . '%')->get()
             ->paginate(10);
         if ($users->isEmpty()) {
             return response()->json([
@@ -49,7 +48,6 @@ class SearchController extends Controller
             ]);
         }
         return response()->json([
-            'message' => 'Search results',
             $users,
         ]);
     }
