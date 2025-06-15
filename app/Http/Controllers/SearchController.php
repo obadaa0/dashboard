@@ -38,9 +38,12 @@ class SearchController extends Controller
                 'users' => [],
             ], 400);
         }
-        $users = User::where('firstname', 'LIKE', '%' . $search . '%')
-            ->where('role', 'police')
-            ->orWhere('lastname', 'LIKE', '%' . $search . '%')->get()
+        $users = User::where(function ($query) use ($search) {
+            $query
+                ->where('role', 'police')
+                ->where('firstname', 'LIKE', '%' . $search . '%')
+                ->orWhere('lastname', 'LIKE', '%' . $search . '%');
+        })
             ->paginate(10);
         if ($users->isEmpty()) {
             return response()->json([
