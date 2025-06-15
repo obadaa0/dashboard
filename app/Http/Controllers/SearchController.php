@@ -15,7 +15,7 @@ class SearchController extends Controller
                 'message' => 'يجب إدخال كلمة واحدة على الأقل',
             ], 400);
         }
-        $users = User::where('role', 'police')
+        $users = User::where('role', 'user')
             ->where(function ($query) use ($search) {
                 $query->where('firstname', 'LIKE', '%' . $search . '%')
                     ->orWhere('lastname', 'LIKE', '%' . $search . '%');
