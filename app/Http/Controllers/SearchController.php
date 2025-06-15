@@ -21,8 +21,7 @@ class SearchController extends Controller
         $users = User::where('firstname', 'LIKE', '%' . $search . '%')
             ->where('role', 'user')
             ->orWhere('lastname', 'LIKE', '%' . $search . '%')
-            ->limit(10)
-            ->get();
+            ->paginate(10);
         if ($users->isEmpty()) {
             return response()->json([
                 'message' => 'لا يوجد نتائج',
@@ -45,8 +44,7 @@ class SearchController extends Controller
         $users = User::where('firstname', 'LIKE', '%' . $search . '%')
             ->where('role', 'police')
             ->orWhere('lastname', 'LIKE', '%' . $search . '%')
-            ->limit(10)
-            ->get();
+            ->paginate(10);
         if ($users->isEmpty()) {
             return response()->json([
                 'message' => 'لا يوجد نتائج',
