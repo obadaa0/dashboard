@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Helpers\AuthHelper;
 use Closure;
 use Illuminate\Http\Request;
 use Laravel\Sanctum\PersonalAccessToken;
@@ -14,20 +15,16 @@ class CheckRole
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next)
     {
-        $token = PersonalAccessToken::findToken($request->bearerToken());
-        if(!$token){
-            return response()->json(['message' => 'unAuth'],401);
+
+        $user = AuthHelper::getUserFromToken($request);
+        if (!$user) {
+            return response()->json(['message' => 'قم بتسجيل الدخول اولا']);
         }
-        $user = $token->tokenable;
-        if(!$user){
-            return response()->json(['message' => 'unAuth'],401);
-        }
-        if(!($user->role === 'police'|| $user->role === 'admin')){
-            return response()->json(['message' => 'unAuth'],401);
+        if (!($user->role === 'police' || $user->role === 'admin')) {
+            return response()->json(['message' => 'غير مصرح بالدخول هنا'], 401);
         }
         return $next($request);
-
     }
 }
