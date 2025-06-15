@@ -6,22 +6,24 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
-    Route::get('/police/users',[UserController::class,'getUsers'])->middleware('isPolice');
-    Route::get('/police/polices',[UserController::class,'getPolice'])->middleware('isPolice');
-    Route::get('/police/user/block/{user}',[UserController::class,'blockUser'])->middleware('isPolice');
-    Route::get('/police/user/unblock/{user}',[UserController::class,'UnblockUser'])->middleware('isPolice');
-    Route::post('/admin/police/create',[UserController::class,'createPolice'])->middleware('isAdmin');
-    Route::post('admin/police/update/{user}',[UserController::class,'updatePolice'])->middleware('isAdmin');
-    Route::delete('admin/police/delete/{user}',[UserController::class,'deletePolice'])->middleware('isAdmin');
-    Route::get('/admin/report/post',[reportPostController::class,'show']);
-    Route::get('/admin/report/post/reviewed/{report_post}',[reportPostController::class,'makeReviewed']);
-    Route::get('/admin/report/post/rejected/{report_post}',[reportPostController::class,'makeRejected']);
-    Route::get('/admin/report/post/warn/{report_post}',[reportPostController::class,'warnUser']);
-     Route::get('/police/report/show',[ReportController::class,'show'])->middleware('isPolice');
-    Route::get('/police/report/progress/{report}',[ReportController::class,'setProgress'])->middleware('isPolice');
-    Route::get('/police/report/resolved/{report}',[ReportController::class,'setResolved'])->middleware('isPolice');
-    Route::get('/police/report/rejected/{report}',[ReportController::class,'setRejected'])->middleware('isPolice');
-    //news
-    Route::get('/police/news/show',[PostController::class,'summarizeNews'])->middleware('isPolice');
-    //search
-    Route::post('/search',[SearchController::class,'search']);
+
+Route::post('/admin/user/login', [UserController::class, 'login'])->middleware('customThrottle:1,0.083');
+Route::get('/police/users', [UserController::class, 'getUsers'])->middleware('isPolice');
+Route::get('/police/polices', [UserController::class, 'getPolice'])->middleware('isPolice');
+Route::get('/police/user/block/{user}', [UserController::class, 'blockUser'])->middleware('isPolice');
+Route::get('/police/user/unblock/{user}', [UserController::class, 'UnblockUser'])->middleware('isPolice');
+Route::post('/admin/police/create', [UserController::class, 'createPolice'])->middleware('isAdmin');
+Route::post('admin/police/update/{user}', [UserController::class, 'updatePolice'])->middleware('isAdmin');
+Route::delete('admin/police/delete/{user}', [UserController::class, 'deletePolice'])->middleware('isAdmin');
+Route::get('/admin/report/post', [reportPostController::class, 'show']);
+Route::get('/admin/report/post/reviewed/{report_post}', [reportPostController::class, 'makeReviewed']);
+Route::get('/admin/report/post/rejected/{report_post}', [reportPostController::class, 'makeRejected']);
+Route::get('/admin/report/post/warn/{report_post}', [reportPostController::class, 'warnUser']);
+Route::get('/police/report/show', [ReportController::class, 'show'])->middleware('isPolice');
+Route::get('/police/report/progress/{report}', [ReportController::class, 'setProgress'])->middleware('isPolice');
+Route::get('/police/report/resolved/{report}', [ReportController::class, 'setResolved'])->middleware('isPolice');
+Route::get('/police/report/rejected/{report}', [ReportController::class, 'setRejected'])->middleware('isPolice');
+//news
+Route::get('/police/news/show', [PostController::class, 'summarizeNews'])->middleware('isPolice');
+//search
+Route::post('/search', [SearchController::class, 'search']);

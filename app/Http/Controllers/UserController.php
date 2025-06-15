@@ -8,24 +8,60 @@ use App\Mail\UnBlockUserMail;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+
 class UserController extends Controller
 {
+    public function login(Request $request)
+    {
+        try {
+            $valide = $request->validate([
+                'email' => 'required|email',
+                'password' => 'required'
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'message' => 'Validation failed',
+                'errors' => $e->errors()
+            ], 422);
+        }
+        $user = User::where('email', $request['email'])
+            ->first();
+        if (!$user) {
+            return response()->json(['message' => 'لا يوجد مستخدم بهذا الحساب'], 404);
+        }
+        if ($user->block) {
+            return response()->json([
+                'message' => 'حسابك هذا تم حظره بسبب انتهاك خصوصية موقعنا',
+                'status' => 'blocked',
+                'code' => 403
+            ], 403);
+        }
+        if (!Hash::check($valide['password'], $user->password)) {
+            return response()->json(['message' => 'كلمة المرور غير صحيحة'], 401);
+        }
+        if ($user->role === 'user') {
+            return response()->json(['message' => 'لا يمكنك تسجيل الدخول من هنا'], 400);
+        }
+        $token = $user->createToken('auth_token')->plainTextToken;
+        return response()->json(['data' => ['token' => $token]], 200);
+    }
     public function getPolice(Request $request)
     {
-    $polices = User::where('role','police')->paginate(10);
-    return $polices;
+        $polices = User::where('role', 'police')->paginate(10);
+        return $polices;
     }
     public function getUsers(Request $request)
     {
-        $users = User::where('role','user')->paginate(10);
+        $users = User::where('role', 'user')->paginate(10);
         return  $users;
     }
     public function blockUser(User $user)
     {
-        try{
+        try {
             Mail::to($user->email)->queue(new BlockUserMail($user));
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return $e->getMessage();
         }
         $user->block();
@@ -33,9 +69,9 @@ class UserController extends Controller
     }
     public function UnblockUser(User $user)
     {
-          try{
+        try {
             Mail::to($user->email)->queue(new UnBlockUserMail($user));
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return $e->getMessage();
         }
         $user->Unblock();
@@ -43,8 +79,8 @@ class UserController extends Controller
     }
     public function createPolice(Request $request)
     {
-         try{
-            $validate=$request->validate([
+        try {
+            $validate = $request->validate([
                 'firstname' => 'string',
                 'lastname' => 'string',
                 'email' => 'email|required',
@@ -55,27 +91,25 @@ class UserController extends Controller
                 'badge_number' => 'required',
                 'national_number' => 'required'
             ]);
-        }
-        catch (\Illuminate\Validation\ValidationException $e) {
+        } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json([
                 'message' => 'Validation failed',
                 'errors' => $e->errors()
             ], 422);
         }
-        $userEx=User::where('email',$request['email'])->exists();
-        if($userEx)
-        {
-            return response()->json(['message' => 'User has been exist'],400);
+        $userEx = User::where('email', $request['email'])->exists();
+        if ($userEx) {
+            return response()->json(['message' => 'User has been exist'], 400);
         }
-            if ($request->hasFile('profile_image')) {
-        $path = MediaHelper::StoreMedia('profileImage', $request, 'profile_image');
-        $validate['profile_image'] = $path;
-    }
+        if ($request->hasFile('profile_image')) {
+            $path = MediaHelper::StoreMedia('profileImage', $request, 'profile_image');
+            $validate['profile_image'] = $path;
+        }
         $validate['role'] = 'police';
-        $user=User::create($validate);
-        return response()->json(['data' => $user],200);
+        $user = User::create($validate);
+        return response()->json(['data' => $user], 200);
     }
-public function updatePolice(Request $request, User $user)
+    public function updatePolice(Request $request, User $user)
     {
         try {
             $validate = $request->validate([
@@ -104,9 +138,9 @@ public function updatePolice(Request $request, User $user)
     }
     public function deletePolice(User $user)
     {
-        if($user->delete()){
-            return response()->json(['message' => 'delete succesfully'],200);
+        if ($user->delete()) {
+            return response()->json(['message' => 'delete succesfully'], 200);
         }
-        return response()->json(['message' => 'can not delete this police'],400);
+        return response()->json(['message' => 'can not delete this police'], 400);
     }
 }
