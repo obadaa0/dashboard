@@ -20,7 +20,7 @@ class CheckRole
 
         $user = AuthHelper::getUserFromToken($request);
         if (!$user) {
-            return response()->json(['message' => 'قم بتسجيل الدخول اولا']);
+            return response()->json(['message' => 'قم بتسجيل الدخول اولا'], 401);
         }
         if (!($user->role === 'police' || $user->role === 'admin')) {
             return response()->json(['message' => 'غير مصرح بالدخول هنا'], 401);
