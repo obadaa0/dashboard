@@ -45,7 +45,7 @@ class UserController extends Controller
             return response()->json(['message' => 'لا يمكنك تسجيل الدخول من هنا'], 400);
         }
         $token = $user->createToken('auth_token')->plainTextToken;
-        return response()->json(['data' => ['token' => $token]], 200);
+        return response()->json(['data' => ['token' => $token, 'role' => $user->role]], 200);
     }
     public function getPolice(Request $request)
     {
