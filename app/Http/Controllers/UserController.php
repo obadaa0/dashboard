@@ -47,12 +47,12 @@ class UserController extends Controller
         $token = $user->createToken('auth_token')->plainTextToken;
         return response()->json(['data' => ['token' => $token, 'role' => $user->role]], 200);
     }
-    public function getPolice(Request $request)
+    public function getPolice()
     {
         $polices = User::where('role', 'police')->paginate(10);
         return $polices;
     }
-    public function getUsers(Request $request)
+    public function getUsers()
     {
         $users = User::where('role', 'user')->paginate(10);
         return  $users;
